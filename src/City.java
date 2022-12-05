@@ -3,6 +3,10 @@ public class City {
     private int x;
     private int y;
 
+    public City(){
+
+    }
+
     public City(String name, int x, int y) {
         this.name = name;
         this.x = x;
@@ -32,4 +36,14 @@ public class City {
     public void setY(int y) {
         this.y = y;
     }
+
+    @Override
+    public String toString() {
+        return "City{" +
+                "name='" + name + '\'' +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
+    }
+
 }
