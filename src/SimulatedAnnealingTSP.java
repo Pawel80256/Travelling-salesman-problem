@@ -51,7 +51,7 @@ public class SimulatedAnnealingTSP {
                     currentPathLength = newPathLength;
                 }
             }
-            // Obniżamy temperaturę o określoną wartość (np. o 10% jej aktualnej wartości)
+            // Obniżamy temperaturę o określoną wartość
             T *= 0.9;
             // Sprawdzamy, czy warunki stopu zostały spełnione
             if (T < desiredAccuracy) {
@@ -74,8 +74,6 @@ public class SimulatedAnnealingTSP {
     }
 
     private int getDistanceBetweenCities (City city1, City city2){
-        // Obliczamy odległość pomiędzy miastami city1 i city2
-        // Możemy to zrobić np. przez obliczenie odległości euklidesowej pomiędzy nimi
         int xDiff = city1.getX() - city2.getX();
         int yDiff = city1.getY() - city2.getY();
         return (int) Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
