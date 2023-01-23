@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class SimulatedAnnealingTSP {
     private final List<City> cities;
@@ -13,10 +10,25 @@ public class SimulatedAnnealingTSP {
     }
 
     public List<City> findBestPath() {
+        Scanner sc = new Scanner(System.in);  // Create a Scanner object
+
         // Ustawiamy początkową temperaturę T oraz warunki stopu
         double T = 100;
-        int maxIterations = 200000;
-        double desiredAccuracy = 0.001;
+        System.out.println("Podaj maksymalną liczbę iteracji:");
+        int maxIterations = sc.nextInt();
+        System.out.println("Podaj dokładność:");
+        double desiredAccuracy = sc.nextDouble();
+        System.out.println("Wybierz tryb:");
+        System.out.println("1. Wyświetl aktualnie najkrótszą ścieżkę w każdej iteracji");
+        System.out.println("2. Wyświetl wyliczoną ścieżkę w każdej iteracji, na końcu najkrótszą");
+        System.out.println("3. Wyświetl obydwie wartości");
+
+        int mode = sc.nextInt();
+
+        while (mode != 1 && mode != 2 && mode != 3){
+            System.out.println("Wybierz poprawną wartość");
+            mode = sc.nextInt();
+        }
 
         // Losujemy początkową ścieżkę
         List<City> currentPath = new ArrayList<>(cities);
@@ -28,6 +40,7 @@ public class SimulatedAnnealingTSP {
         // Dla każdej iteracji algorytmu:
         for (int i = 0; i < maxIterations; i++) {
             // Losujemy nową ścieżkę poprzez zamianę kolejności dwóch losowo wybranych miast w aktualnej ścieżce
+            System.out.println("ITERACJA " + i);
             List<City> newPath = new ArrayList<>(currentPath);
             int index1 = random.nextInt(cities.size());
             int index2 = random.nextInt(cities.size());
@@ -35,6 +48,10 @@ public class SimulatedAnnealingTSP {
 
             // Obliczamy długość nowej ścieżki
             int newPathLength = calculatePathLength(newPath);
+
+            if(mode == 2 || mode == 3){
+                System.out.println("Wyliczona ścieżka: " + newPathLength);
+            }
 
             // Obliczamy różnicę pomiędzy długościami początkowej i nowej ścieżki
             int delta = newPathLength - currentPathLength;
@@ -51,10 +68,19 @@ public class SimulatedAnnealingTSP {
                     currentPathLength = newPathLength;
                 }
             }
+
             // Obniżamy temperaturę o określoną wartość
             T *= 0.9;
+
+            if(mode == 1 || mode == 3){
+                System.out.println("Najkrótsza ścieżka: " + currentPathLength);
+            }
+
             // Sprawdzamy, czy warunki stopu zostały spełnione
             if (T < desiredAccuracy) {
+                if(mode == 2){
+                    System.out.println("Najkrótsza ścieżka: " + currentPathLength);
+                }
                 break;
             }
         }
